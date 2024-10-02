@@ -1,0 +1,80 @@
+<?php
+session_start();
+require_once('../php/config.php');
+
+// Check if the user is trying to log in
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        // Verify the password
+        if ($password === $user['password']) {
+            // Store the user ID in the session
+            $_SESSION['user_id'] = $user['id']; // Store the user ID in the session
+
+            // Store other user information if needed
+            $_SESSION['username'] = $username;
+            $_SESSION['user'] = $user;
+            $_SESSION['logged_in'] = true; // Mark the user as logged in
+
+            // Redirect to the main page
+            header('Location: dash.php');
+            exit();
+        } else {
+            $error = "Incorrect password";
+        }
+    } else {
+        $error = "Username not found";
+    }
+}
+
+// Check if the user is not logged in and not on the login page, then redirect to login page
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    if(basename($_SERVER['PHP_SELF']) !== 'login.php') {
+        header('Location: login.php');
+        exit();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css"> <!-- Include the stylesheet here -->
+    <title>Login System</title>
+    <!-- ... rest of your code ... -->
+</head>
+<body>
+
+    <?php include('header.php'); ?>
+
+    <div class="container">
+        <div class="form-container">
+            <form method="post" action="login.php">
+                <label for="username">اسم المستخدم:</label>
+                <input type="text" name="username" required>
+
+                <label for="password">كلمة السر:</label>
+                <input type="password" name="password" required>
+
+                <label for="adder_name"> المستخدم المسجل حاليا:</label>
+                <input type="text" name="adder_name" value="<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : ''; ?>" readonly>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
+        </div>
+    </div>
+
+    <?php include('footer.php'); ?>
+
+</body>
+</html>

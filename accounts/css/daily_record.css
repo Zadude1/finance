@@ -1,0 +1,106 @@
+  /* CSS styles */
+  body {
+    text-align: center; /* Center align everything within the body */
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+}
+.right {
+    text-align: right;
+}
+.center {
+    margin: 20px auto; /* Center the title */
+}
+table {
+    width: 80%; /* Adjusted width for the entire table */
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+.wide {
+    width: 40%; /* Adjusted width for the Notes column */
+}
+.narrow {
+    width: 20%; /* Adjusted width for the Account Number column */
+}
+.footer {
+    margin-top: 20px;
+    text-align: center;
+}
+.footer .text {
+    font-size: 18px; /* Adjust font size */
+    display: inline-block;
+    margin: 0 10px; /* Adjust margin */
+}
+.footer .left {
+    text-align: left;
+    float: left;
+    margin-left: 90px; /* Additional margin for left alignment */
+}
+.footer .right {
+    text-align: right;
+    float: right;
+    margin-right: 20px; /* Additional margin for right alignment */
+}
+.print-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+.home-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+.container {
+display: flex;
+justify-content: space-between;
+border: 1px solid #ccc;
+padding: 10px;
+margin-bottom: 10px;
+}
+
+.left, .right {
+flex: 0 0 45%; /* Adjust width as needed */
+}
+
+.right {
+text-align: right;
+}
+
+.right b, .left b {
+display: block; /* Ensure <b> tags are displayed as block elements */
+}
+@media print {
+    .print-button {
+        display: none; /* Hide print button when printing */
+    }
+    .home-button {
+        display: none; /* Hide home button when printing */
+    }
+}

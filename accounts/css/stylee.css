@@ -1,0 +1,297 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+
+/* Mixin for button */
+@mixin button($background-color) {
+  background-color: $background-color;
+  &:hover {
+    background-color: lighten($background-color, 10%);
+  }
+  &:active {
+    background-color: darken($background-color, 10%);
+  }
+}
+
+/* General Styles */
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: #e4e4e4;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  flex-wrap: wrap;
+  gap: 10px;
+  animation: backgroundAnimation 20s ease infinite alternate;
+  background-image: linear-gradient(15deg, #77bdff, #7beafe, #323aac, #5192cf, #724deb);
+}
+
+@keyframes backgroundAnimation {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Card Styles */
+.card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 35px rgba(#000000, 0.5);
+}
+
+/* Table Styles */
+/* Table Styles */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-weight: bold;
+}
+
+.custom-table th, .custom-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+.custom-table th {
+  background-color: #ffffff;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Light grey for even rows */
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+.custom-table tbody tr:hover {
+  background-color: #e0e0e0; /* Slightly darker grey for hover effect */
+}
+
+.custom-table tfoot td {
+  font-weight: bold;
+}
+
+.custom-table td {
+  width: 15%;
+}
+
+/* Pagination Styles */
+.pagination {
+  background-color: #8f8f8f;
+  width: 100%;
+  display: none;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  & > label {
+    @include button(#8f8f8f);
+    color: #ffffff;
+    padding: 10px;
+    cursor: pointer;
+  }
+}
+
+/* Button Container Styles */
+.button-container {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  span {
+    color: #8f8f8f;
+    text-align: right;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: 0;
+    margin: 0;
+    outline: 0;
+    border-radius: 0;
+    transition: background-color 225ms ease-out;
+    &.primary {
+      $background-color: #147eff;
+      background-color: $background-color;
+      &:hover {
+        background-color: lighten($background-color, 10%);
+      }
+      &:active {
+        background-color: darken($background-color, 10%);
+      }
+    }
+    &.primary {
+      @include button(#147eff);
+    }
+    &.danger {
+      @include button(#d11800);
+    }
+    svg {
+      fill: #ffffff;
+      vertical-align: middle;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
+
+/* Table Title Styles */
+.table-title {
+  color: #ffffff;
+  background-color: #2f2f2f;
+  padding: 15px;
+  h2 {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Form Styles */
+form {
+  flex: 1 1 50%;
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label, select, input {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"], select {
+  width: calc(10% - 20px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="submit"], input[type="button"] {
+  width: 15%;
+  padding: 10px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+/* Theme-related styles */
+body {
+  background-color: #e6ffe6;
+  color: #333;
+}
+
+form {
+  border: 2px solid #696969;
+}
+table {
+
+  border: 2px solid #696969;
+font-weight: bold;
+}
+input[type="text"] {
+  background-color: #fff;
+  color: #333;
+}
+
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+}
+
+.name-suggestion {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.name-suggestion:hover {
+  background-color: #f1f1f1;
+}
+
+/* Style for Print button */
+button.print-btn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.print-btn:hover {
+  background-color: #218838;
+}
+
+/* Style for Edit button */
+button.edit-btn {
+  padding: 10px 20px;
+  background-color: #ffc107;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.edit-btn:hover {
+  background-color: #e0a800;
+}
+
+/* Style for Delete button */
+button.delete-btn {
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.delete-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* Additional Table Styles */
+ 
