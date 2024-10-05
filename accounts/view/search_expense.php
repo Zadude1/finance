@@ -140,16 +140,8 @@ tr:hover {
         </thead>
         <tbody>
             <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "accounting";
+            include "../php/env/db.php";
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
-
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
 
             $sql = "SELECT * FROM expense ORDER BY id_e DESC LIMIT 30";
             $result = $conn->query($sql);

@@ -12,7 +12,7 @@ include "number_to_arabic_word.php";
 ?>
 
 <?php
-include "expense_entry_auth.php";
+include "../php/expense_entry_auth.php";
 ?>
 
 <!DOCTYPE html>

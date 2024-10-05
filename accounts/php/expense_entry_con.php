@@ -1,17 +1,5 @@
 <?php
-// Database connection parameters
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "accounting";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    include "../php/env/db.php";
 
 // Fetch the last entered number from the 'number' column of the 'receipt' table
 $sql = "SELECT number FROM receipt ORDER BY id_r DESC LIMIT 1";

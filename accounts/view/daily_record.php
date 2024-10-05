@@ -2,6 +2,8 @@
 
 <?php 
 session_start();
+error_reporting(E_ERROR | E_PARSE); // Only report errors and parsing errors, ignore warnings
+
 // التحقق مما إذا كان المستخدم غير مسجل الدخول، إعادة توجيهه إلى صفحة تسجيل الدخول
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header('Location: login.php');

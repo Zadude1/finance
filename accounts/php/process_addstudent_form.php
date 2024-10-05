@@ -1,16 +1,9 @@
 <?php
 
-// Database configuration
-$host = 'localhost';
-$dbname = 'accounting';
-$user = 'root'; // Empty for XAMPP localhost
-$password = ''; // Empty for XAMPP localhost
+// Include the database connection
+include '../php/env/db.php';
 
 try {
-    // Establish database connection
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Check if the form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve form data
@@ -28,50 +21,39 @@ try {
         $adder_name = $_POST["adder_name"];
         $create_date = $_POST["create_date"];
 
-        // Insert into status_info table
-        $queryStatusInfo = "INSERT INTO status_info (id_s, id_l, level_num, date, status, year, adder_name, create_date) 
-                            VALUES (NULL, :id_l, :level_num, :date, :status, :year, :adder_name, :create_date)";
-        $stmtStatusInfo = $pdo->prepare($queryStatusInfo);
-        $stmtStatusInfo->bindParam(":id_l", $id_l);
-        $stmtStatusInfo->bindParam(":level_num", $level_num);
-        $stmtStatusInfo->bindParam(":date", $date);
-        $stmtStatusInfo->bindParam(":status", $status);
-        $stmtStatusInfo->bindParam(":year", $year);
-        $stmtStatusInfo->bindParam(":adder_name", $adder_name);
-        $stmtStatusInfo->bindParam(":create_date", $create_date);
-
-        // Set values for the status_info table (adjust as needed)
-        $id_l = 1; // Example value, adjust based on your data
-
-        // Execute the status_info query
-        $stmtStatusInfo->execute();
-
-        // Insert into student_info table
+        // Insert into student_info table first
         $queryStudentInfo = "INSERT INTO student_info (id_s, name, brithday, code, phone, phone_p, email, id_col, adder_name, create_date) 
-                             VALUES (NULL, :name, :birthday, :code, :phone, :phone_p, :email, :id_col, :adder_name, :create_date)";
-        $stmtStudentInfo = $pdo->prepare($queryStudentInfo);
-        $stmtStudentInfo->bindParam(":name", $name);
-        $stmtStudentInfo->bindParam(":birthday", $birthday);
-        $stmtStudentInfo->bindParam(":code", $code);
-        $stmtStudentInfo->bindParam(":phone", $phone);
-        $stmtStudentInfo->bindParam(":phone_p", $phone_p);
-        $stmtStudentInfo->bindParam(":email", $email);
-        $stmtStudentInfo->bindParam(":id_col", $id_col);
-        $stmtStudentInfo->bindParam(":adder_name", $adder_name);
-        $stmtStudentInfo->bindParam(":create_date", $create_date);
-
+                             VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmtStudentInfo = $conn->prepare($queryStudentInfo);
+        $stmtStudentInfo->bind_param("sssssssss", $name, $birthday, $code, $phone, $phone_p, $email, $id_col, $adder_name, $create_date);
+        
         // Execute the student_info query
         $stmtStudentInfo->execute();
+        
+        // Get the last inserted id (id_s) from the student_info table
+        $id_s = $conn->insert_id;
+
+        // Now insert into status_info table with the retrieved id_s
+        $queryStatusInfo = "INSERT INTO status_info (id_s, id_l, level_num, date, status, year, adder_name, create_date) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmtStatusInfo = $conn->prepare($queryStatusInfo);
+        $stmtStatusInfo->bind_param("iissssss", $id_s, $id_l, $level_num, $date, $status, $year, $adder_name, $create_date);
+
+        // Set values for id_l (adjust as needed)
+        $id_l = 1; // Example value, adjust based on your data
+        
+        // Execute the status_info query
+        $stmtStatusInfo->execute();
 
         // Redirect or show a success message
         header("Location: ../view/sidebar_addstudent.php");
         exit();
     }
-} catch (PDOException $e) {
+} catch (mysqli_sql_exception $e) {
     // Handle database connection error
     die("Error: " . $e->getMessage());
 } finally {
     // Close the database connection
-    $pdo = null;
+    $conn->close();
 }
 ?>

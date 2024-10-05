@@ -9,16 +9,8 @@
 <body>
     <div class="container">
         <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "accounting";
+           include "../php/env/db.php";
 
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
 
         if (isset($_GET['id_e'])) {
             $id_e = $_GET['id_e'];

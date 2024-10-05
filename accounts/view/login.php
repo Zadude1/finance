@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../php/config.php');
+require_once('../php/env/db.php');
 
 // Check if the user is trying to log in
 if (isset($_POST['username']) && isset($_POST['password'])) {

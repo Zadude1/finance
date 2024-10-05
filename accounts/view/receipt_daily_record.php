@@ -26,18 +26,7 @@ include "num2word.php";
     include "number_to_arabic_word.php";
 
     // Database connection details
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "accounting";
-
-    // Create connection
-    $conn = @new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    include "../php/env/db.php";
 
     // Get the id_e parameter from the URL
     $id_e = isset($_GET['id_e']) ? $_GET['id_e'] : '';

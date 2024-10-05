@@ -1,4 +1,4 @@
-<php?
+<?php
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 // Check if the user is not logged in, redirect to login page
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {

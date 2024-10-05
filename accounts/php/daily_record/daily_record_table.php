@@ -51,7 +51,6 @@ function getNamesFromDatabase($input) {
     $expenseid = $_POST['expenseid'];
 
     // Debug expenseid
-    echo "Expense ID: $expenseid<br>";
 
     // Retrieve values from form for c_number and c_date
     $c_number = $_POST['cnumber'];
@@ -77,11 +76,10 @@ function getNamesFromDatabase($input) {
     VALUES ('$number', '$totalPaidAmount', '$selected_date', '$paymentfor', '$field10', '$receivedInfo', '$receivedFrom', '$totalPaidAmountArabic', '{$_SESSION['user_id']}', '{$_SESSION['username']}', '$floatcollege', '$id_s', '$c_number', '$selected_cdate', '$field4', '$studyYear', '{$_SESSION['username']}', '$field10', '$expenseid')";
 
     // Print out the SQL query for debugging
-    echo "SQL Query: $sql";
 
     // Execute SQL statement for receipt insertion
     if(mysqli_query($conn, $sql)) {
-        echo "Data inserted successfully";
+        echo "";
 
         // Retrieve the auto-generated ID from the receipt table
         $id_r = mysqli_insert_id($conn);
@@ -104,7 +102,7 @@ function getNamesFromDatabase($input) {
                         VALUES ('$transactionType', '$cashAmount', '$mainAccount', '$id_r')";
 
                 if (mysqli_query($conn, $sql_detal)) {
-                    echo "Transaction inserted successfully<br>";
+                    echo "<br>";
                 } else {
                     echo "Error: " . $sql_detal . "<br>" . mysqli_error($conn);
                 }

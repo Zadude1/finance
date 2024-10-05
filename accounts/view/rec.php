@@ -93,7 +93,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_r = $_POST['id_r'];
 
     // Connect to the database
-    $conn = new mysqli('localhost', 'root', '', 'accounting');
+    include "../php/env/db.php";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
     // Check connection
     if ($conn->connect_error) {
