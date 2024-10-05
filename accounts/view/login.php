@@ -7,17 +7,18 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->execute([$username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Prepare the SQL statement
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param("s", $username); // 's' indicates the type of parameter (string)
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
     if ($user) {
         // Verify the password
-        if ($password === $user['password']) {
+        if ($password === $user['password']) { // You should hash passwords in a real application
             // Store the user ID in the session
-            $_SESSION['user_id'] = $user['id']; // Store the user ID in the session
-
-            // Store other user information if needed
+            $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $username;
             $_SESSION['user'] = $user;
             $_SESSION['logged_in'] = true; // Mark the user as logged in
@@ -35,7 +36,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 // Check if the user is not logged in and not on the login page, then redirect to login page
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    if(basename($_SERVER['PHP_SELF']) !== 'login.php') {
+    if (basename($_SERVER['PHP_SELF']) !== 'login.php') {
         header('Location: login.php');
         exit();
     }
@@ -49,7 +50,6 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css"> <!-- Include the stylesheet here -->
     <title>Login System</title>
-    <!-- ... rest of your code ... -->
 </head>
 <body>
 
