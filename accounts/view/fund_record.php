@@ -111,7 +111,24 @@ include "../php/fund_record.php";
                                 <td><?php echo htmlspecialchars($row['Daily_sequence']); ?></td>
                                 <td><?php echo htmlspecialchars($row['date']); ?></td>
                                 <td><?php echo htmlspecialchars($row['record_number']); ?></td>
-                                <td><?php echo htmlspecialchars($row['type']); ?></td>
+<td>
+    <?php
+    switch ($row['type']) {
+        case 'receipt':
+            echo 'قبض';
+            break;
+        case 'expense':
+            echo 'صرف';
+            break;
+        case 'daily_record':
+            echo 'قيد يومي';
+            break;
+        default:
+            echo htmlspecialchars($row['type']);
+            break;
+    }
+    ?>
+</td>
                                 <td><?php echo htmlspecialchars($row['name_Payments']); ?></td>
                                 <td><?php echo htmlspecialchars($row['name_Receipts']); ?></td>
                                 <td><?php echo number_format($row['Draws'], 2); ?></td>

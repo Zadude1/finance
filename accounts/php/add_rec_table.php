@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -22,16 +21,18 @@ function getNamesFromDatabase($input) {
 
     $conn->close();
     return $names;
-    
 }
+
 if (isset($_POST['submitfinal'])) {
     $finalAmountWritten = end($_SESSION['transactions'])['amountWritten'] ?? '';
     $totalPaidAmount = 0;
+
     foreach ($_SESSION['transactions'] as $transaction) {
         if ($transaction['transactionType'] == 'paid') {
             $totalPaidAmount += intval($transaction['cashAmount']);
         }
     }
+    
     $totalPaidAmountArabic = numtoarb($totalPaidAmount);
    
     $name2 = $_POST['name2'];
@@ -70,7 +71,7 @@ if (isset($_POST['submitfinal'])) {
     }
 
     // Prepare SQL statement for receipt insertion
-    $sql = "INSERT INTO receipt (number, money, data_in, type, date_ac, note, from_per, write_mo, id_u, name, id_col, id_s, c_number, c_date, type_of_receipt, year_r,levels) 
+    $sql = "INSERT INTO receipt (number, money, data_in, type, date_ac, note, from_per, write_mo, id_u, name, id_col, id_s, c_number, c_date, type_of_receipt, year_r, levels) 
     VALUES ('$number','$totalPaidAmount', '$selected_date', '$paymentfor', '$field10', '$receivedInfo', '$receivedFrom', '$totalPaidAmountArabic', '{$_SESSION['user_id']}', '{$_SESSION['username']}', '$floatcollege', '$id_s', '$c_number', '$selected_cdate', '$field4', '$studyYear','$level')";
 
     // Print out the SQL query for debugging
@@ -111,6 +112,7 @@ if (isset($_POST['submitfinal'])) {
     // Close the connection
     mysqli_close($conn);
 }
+
 // Check if any other form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
@@ -127,34 +129,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mainAccount = "";
     $subAccount = "";
 
-   // Ensure the session is started
-session_start();
+    // Ensure the session is started
+    session_start();
 
-// Initialize the transactions array if it doesn't exist
-if (!isset($_SESSION['transactions'])) {
-    $_SESSION['transactions'] = array();
-}
+    // Initialize the transactions array if it doesn't exist
+    if (!isset($_SESSION['transactions'])) {
+        $_SESSION['transactions'] = array();
+    }
 
-// Add transaction to the array with a running total, timestamp, and amount written
-$totalAmount = end($_SESSION['transactions'])['totalAmount'] ?? 0;
+    // Add transaction to the array with a running total, timestamp, and amount written
+    $totalAmount = end($_SESSION['transactions'])['totalAmount'] ?? 0;
 
-if ($accountNumber == 0) {
-    // If account number is 0, insert two rows
-    $_SESSION['transactions'][] = array(
-        'timestamp' => date("Y-m-d H:i:s"),
-        'transactionType' => 'spent',
-        'cashAmount' => $cashAmount,
-        'accountType' => $accountType,
-        'mainAccount' => 183, // Assuming 182 is the main account for 'spent'
-        'subAccount' => "", // No sub account for 'spent'
-        'accountNumber' => $accountNumber,
-        'college' => $college,
-        'level' => $level,
-        'studyYear' => $studyYear,
-        'receivedFrom' => $receivedFrom,
-        'totalAmount' => intval($totalAmount) - intval($cashAmount), // Subtract if spent
-        'amountWritten' => numtoarb(intval($totalAmount) - intval($cashAmount)) // Convert to integer
-    );
+    // Check if the checkbox is selected
+    $isChecked = isset($_POST['isChecked']); // Change 'checkbox_name' to the actual name of your checkbox
+
+    if ($accountNumber == 0) {
+        // If account number is 0, insert two rows
+        $_SESSION['transactions'][] = array(
+            'timestamp' => date("Y-m-d H:i:s"),
+            'transactionType' => 'spent',
+            'cashAmount' => $cashAmount,
+            'accountType' => $accountType,
+            'mainAccount' => $isChecked ? 183 : 181, // Use 183 if checked, else 181
+            'subAccount' => "", // No sub account for 'spent'
+            'accountNumber' => $accountNumber,
+            'college' => $college,
+            'level' => $level,
+            'studyYear' => $studyYear,
+            'receivedFrom' => $receivedFrom,
+            'totalAmount' => intval($totalAmount) - intval($cashAmount), // Subtract if spent
+            'amountWritten' => numtoarb(intval($totalAmount) - intval($cashAmount)) // Convert to integer
+        );
 
         $_SESSION['transactions'][] = array(
             'timestamp' => date("Y-m-d H:i:s"),
@@ -171,7 +176,6 @@ if ($accountNumber == 0) {
             'totalAmount' => intval($totalAmount), // No change in total amount for 'paid'
             'amountWritten' => numtoarb(intval($totalAmount)) // Convert to integer
         );
-        
 
         // Recalculate total paid amount after adding the new transaction
         $totalPaidAmount = 0;
@@ -190,7 +194,6 @@ if ($accountNumber == 0) {
             $subAccount = $accountNumber;
         } else {
             // Handle the case where the account type is neither 'main' nor 'sub'
-            // You can add custom logic here based on your requirements
             $mainAccount = "";
             $subAccount = "";
         }
@@ -210,22 +213,19 @@ if ($accountNumber == 0) {
             'level' => $level,
             'studyYear' => $studyYear,
             'receivedFrom' => $receivedFrom,
-            'totalAmount' => $adjustedAmount,
+            'totalAmount' => $adjustedAmount, // Updated total amount
             'amountWritten' => numtoarb($adjustedAmount) // Convert to integer
         );
-
-        // Recalculate total paid amount after adding the new transaction
-        $totalPaidAmount = 0;
-        foreach ($_SESSION['transactions'] as $transaction) {
-            if ($transaction['transactionType'] == 'paid') {
-                $totalPaidAmount += intval($transaction['cashAmount']);
-            }
-        }
     }
-}
 
+    // Output transactions for debugging
+    
+}
 // Check if the "Empty Table" button is clicked
 if (isset($_POST["emptyTable"])) {
     $_SESSION['transactions'] = []; // Empty the transactions array
 }
+
 ?>
+
+

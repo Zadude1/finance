@@ -69,6 +69,9 @@ include "../php/add_rec_table.php";
 </select>
 <label for="transactionType">نوع العملية:</label>
 
+<input type="checkbox" name="isChecked" id="isChecked">
+<label for="isChecked">صك بنكي</label>
+
 <input type="number" name="cashAmount" id="cashAmount" value="0">
 <label for="cashAmount">المبلغ النقدي:</label>
 
