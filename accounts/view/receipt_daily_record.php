@@ -11,8 +11,8 @@ include "num2word.php";
 </head>
 <body>
     <div class="container">
-        <button class="print-button" onclick="window.print()">Print</button>
-        <button class="home-button" onclick="window.location.href = 'daily_record_search.php'">Home</button>
+        <button class="print-button" onclick="window.print()">طباعة</button>
+        <button class="home-button" onclick="window.location.href = 'sidebar_search_records.php'">عودة</button>
     </div>
 
 

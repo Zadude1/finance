@@ -24,7 +24,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             $_SESSION['logged_in'] = true; // Mark the user as logged in
 
             // Redirect to the main page
-            header('Location: dash.php');
+            header('Location: dboard.php');
             exit();
         } else {
             $error = "Incorrect password";

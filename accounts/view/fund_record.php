@@ -35,10 +35,10 @@ include "../php/fund_record.php";
 </head>
 <body>
     <form method="POST" action="">
-        <label for="year">Enter Year:</label>
+        <label for="year">الشهر:</label>
         <input type="text" id="year" name="year" required>
         
-        <label for="month">Select Month:</label>
+        <label for="month">السنة:</label>
         <select id="month" name="month" required>
             <option value="">Select Month</option>
             <option value="01">January</option>
